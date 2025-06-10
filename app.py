@@ -11,3 +11,9 @@ def home():
 def run_motor():
     resultado = ejecutar_motor_ia()
     return jsonify({"status": "ok", "mensaje": resultado})
+
+import os
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))  # Render usa la variable de entorno PORT
+    app.run(host="0.0.0.0", port=port)
