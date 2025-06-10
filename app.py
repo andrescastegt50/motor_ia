@@ -1,6 +1,17 @@
 from flask import Flask, request, jsonify
+import requests
 
 app = Flask(__name__)
+
+def reenviar_a_chatgpt(payload):
+    try:
+        response = requests.post("https://webhook-chatgpt-1.onrender.com/forward-to-chatgpt", json=payload)
+        if response.status_code == 200:
+            print("✅ Reenvío exitoso a ChatGPT")
+        else:
+            print(f"❌ Error en reenvío: {response.status_code} - {response.text}")
+    except Exception as e:
+        print(f"❌ Excepción en reenvío: {e}")
 
 @app.route('/data', methods=['POST'])
 def procesar():
@@ -15,6 +26,9 @@ def procesar():
         "sl": 137.00,
         "confidence": 85
     }
+
+    # Reenviamos la señal al webhook de ChatGPT
+    reenviar_a_chatgpt(señal)
 
     return jsonify(señal)
 
